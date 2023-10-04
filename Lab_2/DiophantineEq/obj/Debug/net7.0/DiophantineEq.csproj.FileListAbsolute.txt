@@ -1,0 +1,14 @@
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\DiophantineEq.GeneratedMSBuildEditorConfig.editorconfig
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\DiophantineEq.AssemblyInfoInputs.cache
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\DiophantineEq.AssemblyInfo.cs
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\DiophantineEq.csproj.CoreCompileInputs.cache
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\bin\Debug\net7.0\DiophantineEq.exe
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\bin\Debug\net7.0\DiophantineEq.deps.json
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\bin\Debug\net7.0\DiophantineEq.runtimeconfig.json
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\bin\Debug\net7.0\DiophantineEq.dll
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\bin\Debug\net7.0\DiophantineEq.pdb
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\DiophantineEq.dll
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\refint\DiophantineEq.dll
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\DiophantineEq.pdb
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\DiophantineEq.genruntimeconfig.cache
+E:\Магистр_3_сем\Рояк\Labs\Lab_2\DiophantineEq\obj\Debug\net7.0\ref\DiophantineEq.dll

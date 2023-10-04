@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Магистр_3_сем\\Рояк\\Labs\\Lab_2\\DiophantineEq\\DiophantineEq.csproj": {}
+    "E:\\Магистр_3_сем\\Рояк\\Lab_2\\DiophantineEq\\DiophantineEq.csproj": {}
   },
   "projects": {
-    "E:\\Магистр_3_сем\\Рояк\\Labs\\Lab_2\\DiophantineEq\\DiophantineEq.csproj": {
+    "E:\\Магистр_3_сем\\Рояк\\Lab_2\\DiophantineEq\\DiophantineEq.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Магистр_3_сем\\Рояк\\Labs\\Lab_2\\DiophantineEq\\DiophantineEq.csproj",
+        "projectUniqueName": "E:\\Магистр_3_сем\\Рояк\\Lab_2\\DiophantineEq\\DiophantineEq.csproj",
         "projectName": "DiophantineEq",
-        "projectPath": "E:\\Магистр_3_сем\\Рояк\\Labs\\Lab_2\\DiophantineEq\\DiophantineEq.csproj",
+        "projectPath": "E:\\Магистр_3_сем\\Рояк\\Lab_2\\DiophantineEq\\DiophantineEq.csproj",
         "packagesPath": "C:\\Users\\Данил\\.nuget\\packages\\",
-        "outputPath": "E:\\Магистр_3_сем\\Рояк\\Labs\\Lab_2\\DiophantineEq\\obj\\",
+        "outputPath": "E:\\Магистр_3_сем\\Рояк\\Lab_2\\DiophantineEq\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Данил\\AppData\\Roaming\\NuGet\\NuGet.Config",

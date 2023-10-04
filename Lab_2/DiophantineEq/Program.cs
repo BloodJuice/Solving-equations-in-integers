@@ -14,7 +14,7 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            string path = "E:\\Магистр_3_сем\\Рояк\\Labs\\Lab_2\\input.txt";
+            string path = "E:\\Магистр_3_сем\\Рояк\\Lab_2\\input.txt";
             List<List<int>> B = readFile(path);
             List<List<int>> identity = identityMatrix(B[0].Count);
             foreach (List<int> array in identity)
@@ -55,7 +55,6 @@ namespace Program
         }
         static List<List<int>> identityMatrix(int n)
         {
-            Console.WriteLine("Input a number:");
             List<List<int>> M =
             Enumerable.Range(0, n).Select(i => Enumerable.Repeat(0, n).Select((z, j) => j == i ? 1 : 0).ToList()).ToList();
             return M;
@@ -70,41 +69,90 @@ namespace Program
 
             public void calculationOfMatrix()
             {
-                int i, j, r, q;
+                int i, j, r, q, count, aj;
+                bool flag = true;
+                count = 0;
 
                 // First point
-                int[] intermValue = minimum(main_matrix[0]);
-                int minValue = intermValue[0];
-                i = intermValue[1];
-                
-                // Second point
-                if (minValue == main_matrix[0][0])
-                    j = 1;
-                else
-                    j = 0;
+                while (flag)
+                {
+                    int[] intermValue = minimum(main_matrix[0]);
+                    int ai = intermValue[0];
+                    i = intermValue[1];
 
-                //Third point
-                r = main_matrix[0][i] % minValue;
-                q = main_matrix[0][i] / minValue;
+                    // Second point
+                    intermValue = searchOtherValue(main_matrix[0], i);
+                    aj = intermValue[0];
+                    j = intermValue[1];
+                    
+                    if (aj == ai || aj == 0)
+                    {
+                        flag = false;
+                        continue;
+                    }
 
-                int a = 0;
-                //Forth point
+                    //Third point
+                    r = aj % ai;
+                    q = aj / ai;
+
+                    
+                    //Forth point
+                    for (int z = 0; z < main_matrix.Count; z++)
+                    {
+                        main_matrix[z][j] -= q * main_matrix[z][i];
+                    }
+                    for (int z = 0; z < main_matrix[0].Count; z++)
+                    {
+                        if (main_matrix[0][z] == 0)
+                        {
+                            count++;
+                        }
+                    }
+                    if (count == main_matrix[0].Count)
+                        flag = false;
+                }
+                print(main_matrix);
 
             }
             private int[] minimum(List<int> massive)
             {
                 int minValue = massive[0];
-                int[] result = new int[2]; 
-                for (int i = 1; i < massive.Count; i++)
+                int[] result = new int[2];
+                
+                for (int i = 0; i < massive.Count; i++)
                 {
-                    if (massive[i] < minValue) 
+                    if (massive[i] <= minValue && massive[i] != 0) 
                     {
                         minValue = massive[i];
                         result[0] = minValue;
                         result[1] = i;
-                    } 
+                    }
                 }
                 return result;
+            }
+            private int[] searchOtherValue(List<int> massive, int i)
+            {
+                int[] result = new int[2];
+                
+                for (int j = 0; j < massive.Count; j++)
+                {
+                    if (massive[i] != massive[j] && massive[i] != 0)
+                    {
+                        result[0] = massive[j];
+                        result[1] = j;
+                    }
+                }
+                
+                return result;
+            }
+            private void print(List<List<int>>massive)
+            {
+                foreach (List<int> ar in massive)
+                {
+                    foreach (int a in ar)
+                        Console.Write($"{a}\t");
+                    Console.WriteLine();
+                }    
             }
         }
     }

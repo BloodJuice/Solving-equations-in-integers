@@ -1,45 +1,53 @@
-﻿using System;
+﻿using Program;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Program
+namespace DiophantineEq
 {
-    internal class LinearEquationEasy : IMatrixSolver
+    internal class LinearEquationHard : IMatrixSolver
     {
         public List<List<int>> main_matrix { set; get; }
         public int resultCalculateMatrix { get; set; }
-        public LinearEquationEasy() { }
-
+        public int n { get; set; }
+        public LinearEquationHard() { }
         public void calculationOfMatrix()
         {
-            int i, j, r, q, count, aj;
+            int i, j, r, q, count, aj, iNow; 
             bool flag = true;
             count = 0;
+            iNow = 0; // номер рассматриваемой строки матрицы main_matrix
 
             // First point
-            while (flag)
+            while (iNow < n)
             {
-                int[] intermValue = minimum(main_matrix[0]);
+                int[] intermValue = minimum(main_matrix[iNow]);
                 int ai = intermValue[0];
                 i = intermValue[1];
 
                 // Second point
-                intermValue = searchOtherValue(main_matrix[0], i);
+                intermValue = searchOtherValue(main_matrix[iNow], i);
                 aj = intermValue[0];
                 j = intermValue[1];
 
                 if ((aj == ai && i == j) || aj == 0)
                 {
-                    flag = false;
-                    continue;
+                    if (main_matrix[iNow][iNow] != 1)
+                        swap(iNow);
+                    iNow++;
                 }
 
                 //Third point
                 r = aj % ai;
                 q = aj / ai;
-
+                if (r < 0 || r > Math.Abs(ai))
+                {
+                    Console.WriteLine($"NO SOLUTIONS");
+                    break;
+                }
+                    
 
                 //Forth point
                 for (int z = 0; z < main_matrix.Count; z++)
@@ -53,33 +61,18 @@ namespace Program
                         count++;
                     }
                 }
-                if (count == main_matrix[0].Count - 1)
-                    flag = false;
+
+                // Проверяем число нулевых элементов в текущей строке матрицы для создания треугольного вида
+                if (count == (main_matrix[iNow].Count - 1) - iNow)
+                {
+                    if (main_matrix[iNow][iNow] != 1)
+                        swap(iNow);
+                    iNow++;
+
+                }
+                
             }
             print(main_matrix);
-        }
-        public void searcherMatrixResult()
-        {
-            for (int i = 0; i < main_matrix[0].Count;i++)
-            {
-                if (main_matrix[0][i] != 0)
-                    resultCalculateMatrix = main_matrix[0][i];
-            }
-        }
-        public void disisionMatrix(int c)
-        {
-            int d = resultCalculateMatrix;
-            int[,] exitMatrix = new int[main_matrix.Count - 1, main_matrix[1].Count];
-            for (int i = 1; i < main_matrix.Count; i++)
-            {
-                for (int j = 0; j < main_matrix[i].Count; j++)
-                {
-                    if (j == 0)
-                        exitMatrix[i - 1, j] = (c / d * main_matrix[i][j]);
-                    else
-                        exitMatrix[i - 1, j] = (main_matrix[i][j]);
-                }
-            }
         }
         public int[] minimum(List<int> massive)
         {
@@ -112,6 +105,24 @@ namespace Program
             }
 
             return result;
+        }
+        protected void swap(int iNow)
+        {
+            int depot, location;
+            location = 0;
+
+            // Свободный элемент не рассматриваем, оттого и main_matrix[iNow].Count - 1 
+            for (int j = 0; j < main_matrix[iNow].Count - 1; j++)
+            {
+                if (main_matrix[iNow][j] == 0)
+                    location = j;
+            }
+            for (int i = 0; i < main_matrix.Count; i++)
+            {
+                depot = main_matrix[i][location];
+                main_matrix[i][location] = main_matrix[i][iNow];
+                main_matrix[i][iNow] = depot;
+            }
         }
         protected void print(List<List<int>> massive)
         {

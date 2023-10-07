@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiophantineEq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,17 +19,21 @@ namespace Program
             List<List<int>> B = readFile(path);
             List<List<int>> outputB = new List<List<int>>();
             int n = B[0][0];
+            int m = B[0][1];
             B.Remove(B[0]);
-            int Fx = B[0][B[0].Count - 1];
+            
+            List<List<int>> identity = identityMatrix(m);
+            
+
             if (n == 1)
             {
-                
-                B[0].Remove(Fx);
-                List<List<int>> identity = identityMatrix(B[0].Count);
                 foreach (List<int> array in identity)
                 {
                     B.Add(array);
                 }
+                int Fx = B[0][B[0].Count - 1];
+                B[0].Remove(Fx);
+                
                 LinearEquationEasy linearEquation = new LinearEquationEasy();
                 linearEquation.main_matrix = B;
                 linearEquation.calculationOfMatrix();
@@ -42,6 +47,23 @@ namespace Program
                 else
                     Console.WriteLine($"Fx : {Fx} не делится на {linearEquation.resultCalculateMatrix}");
 
+            }
+            else
+            {
+                for (int i = 0; i < B.Count; i++)
+                {
+                    B[i][B[i].Count - 1] *= -1; 
+                }
+                foreach (List<int> array in identity)
+                {
+                    array.Add(0);
+                    B.Add(array);
+                }
+                LinearEquationHard linearEquation = new LinearEquationHard();
+                linearEquation.n = n;
+                linearEquation.main_matrix = B;
+                linearEquation.calculationOfMatrix();
+                outputB = linearEquation.main_matrix;
             }
         }
         static List<List<int>> readFile(string path)

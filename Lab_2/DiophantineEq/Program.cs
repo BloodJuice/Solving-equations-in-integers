@@ -14,27 +14,35 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            string path = "E:\\Магистр_3_сем\\Рояк\\Lab_2\\input.txt";
+            string path = "E:\\Магистр_3_сем\\Рояк\\Lab_2\\DiophantineEq\\input.txt";
             List<List<int>> B = readFile(path);
             List<List<int>> outputB = new List<List<int>>();
+            int n = B[0][0];
+            B.Remove(B[0]);
             int Fx = B[0][B[0].Count - 1];
-            B[0].Remove(Fx);
-            List<List<int>> identity = identityMatrix(B[0].Count);
-            foreach (List<int> array in identity)
+            if (n == 1)
             {
-                B.Add(array);
-            }
+                
+                B[0].Remove(Fx);
+                List<List<int>> identity = identityMatrix(B[0].Count);
+                foreach (List<int> array in identity)
+                {
+                    B.Add(array);
+                }
+                LinearEquationEasy linearEquation = new LinearEquationEasy();
+                linearEquation.main_matrix = B;
+                linearEquation.calculationOfMatrix();
+                outputB = linearEquation.main_matrix;
+                linearEquation.searcherMatrixResult();
+                if (Fx % linearEquation.resultCalculateMatrix == 0)
+                {
+                    Console.WriteLine($"Fx : {Fx} делится на {linearEquation.resultCalculateMatrix}");
+                    linearEquation.disisionMatrix(Fx);
+                }
+                else
+                    Console.WriteLine($"Fx : {Fx} не делится на {linearEquation.resultCalculateMatrix}");
 
-            LinearEquation linearEquation = new LinearEquation();
-            linearEquation.main_matrix = B;
-            linearEquation.calculationOfMatrix();
-            outputB = linearEquation.main_matrix;
-            linearEquation.searcherMatrixResult();
-            if (Fx % linearEquation.resultCalculateMatrix != 0)
-            {
-                Console.WriteLine($"Fx : {Fx} не делится на {linearEquation.resultCalculateMatrix}");
             }
-            linearEquation.disisionMatrix(Fx);
         }
         static List<List<int>> readFile(string path)
         {

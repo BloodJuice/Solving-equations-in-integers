@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Program
 {
-    internal class LinearEquation
+    internal class LinearEquationEasy : IMatrixSolver
     {
         public List<List<int>> main_matrix { set; get; }
         public int resultCalculateMatrix { get; set; }
-        public LinearEquation() { }
+        public LinearEquationEasy() { }
 
         public void calculationOfMatrix()
         {
@@ -30,7 +30,7 @@ namespace Program
                 aj = intermValue[0];
                 j = intermValue[1];
 
-                if (aj == ai || aj == 0)
+                if ((aj == ai && i == j) || aj == 0)
                 {
                     flag = false;
                     continue;
@@ -53,7 +53,7 @@ namespace Program
                         count++;
                     }
                 }
-                if (count == main_matrix[0].Count)
+                if (count == main_matrix[0].Count - 1)
                     flag = false;
             }
             print(main_matrix);
@@ -81,7 +81,7 @@ namespace Program
                 }
             }
         }
-        private int[] minimum(List<int> massive)
+        public int[] minimum(List<int> massive)
         {
             int minValue = massive[0];
             int[] result = new int[2];
@@ -97,22 +97,23 @@ namespace Program
             }
             return result;
         }
-        private int[] searchOtherValue(List<int> massive, int i)
+        public int[] searchOtherValue(List<int> massive, int i)
         {
             int[] result = new int[2];
 
             for (int j = 0; j < massive.Count; j++)
             {
-                if (massive[i] != massive[j] && massive[i] != 0)
+                if (i != j && massive[i] != 0)
                 {
                     result[0] = massive[j];
                     result[1] = j;
+                    break;
                 }
             }
 
             return result;
         }
-        private void print(List<List<int>> massive)
+        protected void print(List<List<int>> massive)
         {
             foreach (List<int> ar in massive)
             {

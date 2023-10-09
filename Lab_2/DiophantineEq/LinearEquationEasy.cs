@@ -21,12 +21,12 @@ namespace Program
             // First point
             while (flag)
             {
-                int[] intermValue = minimum(main_matrix[0]);
+                int[] intermValue = Ai(main_matrix[0]);
                 int ai = intermValue[0];
                 i = intermValue[1];
 
                 // Second point
-                intermValue = searchOtherValue(main_matrix[0], i);
+                intermValue = searchOtherValue(main_matrix[0], i, 0);
                 aj = intermValue[0];
                 j = intermValue[1];
 
@@ -81,7 +81,7 @@ namespace Program
                 }
             }
         }
-        public int[] minimum(List<int> massive)
+        public int[] Ai(List<int> massive)
         {
             int minValue = massive[0];
             int[] result = new int[2];
@@ -97,7 +97,7 @@ namespace Program
             }
             return result;
         }
-        public int[] searchOtherValue(List<int> massive, int i)
+        public int[] searchOtherValue(List<int> massive, int i, int deleteValue)
         {
             int[] result = new int[2];
 

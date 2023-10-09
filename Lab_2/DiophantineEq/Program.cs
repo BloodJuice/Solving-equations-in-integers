@@ -85,7 +85,7 @@ namespace Program
         static List<int> reglexReturn(string line)
         {
             List<int> ret = new List<int>();
-            Regex rx = new Regex(@"\d+");
+            Regex rx = new Regex(@"[-+]?\d+");
 
             foreach (Match match in rx.Matches(line))
             {

@@ -15,79 +15,78 @@ namespace DiophantineEq
         public LinearEquationHard() { }
         public void calculationOfMatrix()
         {
-            int i, j, r, q, count, aj, iNow, deleteValue;
-            bool flag = true;
+            int i, j, r, q, count, aj, iNow, deleteValue, lenMatrix;
             iNow = 0; // номер рассматриваемой строки матрицы main_matrix
             deleteValue = 0;
+            lenMatrix = main_matrix[iNow].Count;
 
             // First point
             while (iNow < n)
             {
-                while (main_matrix[iNow][main_matrix[iNow].Count - 1] != 0)
+                lenMatrix = main_matrix[iNow].Count;
+                count = 0;
+                int[] intermValue = Ai(main_matrix[iNow], iNow);
+                int ai = intermValue[0];
+                i = intermValue[1];
+
+                // Second point
+                intermValue = searchOtherValue(main_matrix[iNow], i, deleteValue);
+                aj = intermValue[0];
+                j = intermValue[1];
+
+                if (i == j || aj == 0)
                 {
-                    count = 0;
-                    int[] intermValue = Ai(main_matrix[iNow]);
-                    int ai = intermValue[0];
-                    i = intermValue[1];
-
-                    // Second point
-                    intermValue = searchOtherValue(main_matrix[iNow], i, deleteValue);
-                    aj = intermValue[0];
-                    j = intermValue[1];
-
-                    if (i == j || aj == 0)
-                    {
-                        if (main_matrix[iNow][iNow] != 1)
-                            swap(iNow);
-                        iNow++;
-                    }
-
-                    //Third point
-                    r = aj % ai;
-                    q = aj / ai;
-                    if (r != 0 && aj == main_matrix[iNow][main_matrix[iNow].Count - 1])
-                    {
-                        Console.WriteLine($"NO SOLUTIONS");
-                        break;
-                    }
-                    if (r < 0 || r > Math.Abs(ai))
-                    {
-                        deleteValue = aj;
-                        continue;
-                    }
-
-
-                    //Forth point
-                    for (int z = 0; z < main_matrix.Count; z++)
-                    {
-                        main_matrix[z][j] -= q * main_matrix[z][i];
-                    }
-                    for (int z = 0; z < main_matrix[iNow].Count; z++)
-                    {
-                        if (main_matrix[iNow][z] == 0)
-                        {
-                            count++;
-                        }
-                    }
-
-                    // Проверяем число нулевых элементов в текущей строке матрицы для создания треугольного вида
-                    if (count == (main_matrix[iNow].Count - 1) - iNow)
-                    {
-                        if (main_matrix[iNow][iNow] == 0)
-                            swap(iNow);
-                    }
-                    
+                    if (main_matrix[iNow][iNow] != 1)
+                        swap(iNow);
+                    iNow++;
+                    continue;
                 }
-                iNow++;
+
+                //Third point
+                r = aj % ai;
+                q = aj / ai;
+                if (r != 0 && aj == main_matrix[iNow][lenMatrix - 1])
+                {
+                    Console.WriteLine($"NO SOLUTIONS");
+                    break;
+                }
+                if (r < 0 || r > Math.Abs(ai))
+                {
+                    deleteValue = aj;
+                    continue;
+                }
+
+
+                //Forth point
+                for (int z = 0; z < main_matrix.Count; z++)
+                {
+                    main_matrix[z][j] -= q * main_matrix[z][i];
+                }
+                for (int z = iNow; z < lenMatrix - 1; z++)
+                {
+                    if (main_matrix[iNow][z] == 0)
+                    {
+                        count++;
+                    }
+                }
+
+                // Проверяем число нулевых элементов в текущей строке матрицы для создания треугольного вида
+                if (count == (lenMatrix - 2) - iNow && main_matrix[iNow][lenMatrix - 1] == 0)
+                {
+                    if (main_matrix[iNow][iNow] == 0)
+                        swap(iNow);
+                    iNow++;
+                }
+                
             }
             print(main_matrix);
         }
-        public int[] Ai(List<int> massive)
+        public int[] Ai(List<int> massive, int iNow)
         {
-            int[] result = noZeroValue(massive);
+            int[] result = noZeroValue(massive, iNow);
 
             // Убираем из расчётов последний столбец, т.к. его мы не можем вычитать из других элементов.
-            for (int i = 0; i < massive.Count - 1; i++)
+            for (int i = iNow; i < massive.Count - 1; i++)
             {
                 if (Math.Abs(massive[i]) < Math.Abs(result[0]) && massive[i] != 0)
                 {
@@ -112,10 +111,10 @@ namespace DiophantineEq
             }
             return result;
         }
-        protected int[] noZeroValue(List<int> massive)
+        protected int[] noZeroValue(List<int> massive, int iNow)
         {
             int[] value = new int[] { 0, 0 };
-            for (int j = 0; j < massive.Count; j++)
+            for (int j = iNow; j < massive.Count; j++)
             {
                 if (massive[j] != 0)
                 {

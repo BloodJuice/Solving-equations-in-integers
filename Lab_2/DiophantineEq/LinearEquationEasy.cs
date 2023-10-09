@@ -21,7 +21,7 @@ namespace Program
             // First point
             while (flag)
             {
-                int[] intermValue = Ai(main_matrix[0]);
+                int[] intermValue = Ai(main_matrix[0], 0);
                 int ai = intermValue[0];
                 i = intermValue[1];
 
@@ -81,7 +81,7 @@ namespace Program
                 }
             }
         }
-        public int[] Ai(List<int> massive)
+        public int[] Ai(List<int> massive, int iNow)
         {
             int minValue = massive[0];
             int[] result = new int[2];

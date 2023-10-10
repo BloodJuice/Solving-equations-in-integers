@@ -39,7 +39,14 @@ namespace DiophantineEq
                     if (main_matrix[iNow][iNow] != 1)
                         swap(iNow);
                     iNow++;
+                    if (iNow == n)
+                        Console.WriteLine($"NO SOLUTIONS");
                     continue;
+                }
+                if (ai == 0)
+                {
+                    Console.WriteLine($"NO SOLUTIONS");
+                    break;
                 }
 
                 //Third point
@@ -114,7 +121,7 @@ namespace DiophantineEq
         protected int[] noZeroValue(List<int> massive, int iNow)
         {
             int[] value = new int[] { 0, 0 };
-            for (int j = iNow; j < massive.Count; j++)
+            for (int j = iNow; j < massive.Count - 1; j++)
             {
                 if (massive[j] != 0)
                 {
@@ -132,7 +139,7 @@ namespace DiophantineEq
             location = 0;
 
             // Свободный элемент не рассматриваем, оттого и main_matrix[iNow].Count - 1 
-            for (int j = 0; j < main_matrix[iNow].Count - 1; j++)
+            for (int j = iNow; j < main_matrix[iNow].Count - 1; j++)
             {
                 if (main_matrix[iNow][j] != 0)
                 {
@@ -142,6 +149,8 @@ namespace DiophantineEq
             }
             for (int i = 0; i < main_matrix.Count; i++)
             {
+                if (location == 0)
+                    break;
                 depot = main_matrix[i][location];
                 main_matrix[i][location] = main_matrix[i][iNow];
                 main_matrix[i][iNow] = depot;

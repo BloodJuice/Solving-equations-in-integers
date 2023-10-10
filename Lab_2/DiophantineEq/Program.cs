@@ -31,21 +31,22 @@ namespace Program
                 {
                     B.Add(array);
                 }
-                int Fx = B[0][B[0].Count - 1];
-                B[0].Remove(Fx);
+                int c = B[0][B[0].Count - 1];
+                B[0].Remove(c);
                 
                 LinearEquationEasy linearEquation = new LinearEquationEasy();
                 linearEquation.main_matrix = B;
                 linearEquation.calculationOfMatrix();
                 outputB = linearEquation.main_matrix;
                 linearEquation.searcherMatrixResult();
-                if (Fx % linearEquation.resultCalculateMatrix == 0)
+                getResult(outputB, n, c);
+                if (c % linearEquation.resultCalculateMatrix == 0)
                 {
-                    Console.WriteLine($"Fx : {Fx} делится на {linearEquation.resultCalculateMatrix}");
-                    linearEquation.disisionMatrix(Fx);
+                    Console.WriteLine($"Fx : {c} делится на {linearEquation.resultCalculateMatrix}");
+                    linearEquation.disisionMatrix(c);
                 }
                 else
-                    Console.WriteLine($"Fx : {Fx} не делится на {linearEquation.resultCalculateMatrix}");
+                    Console.WriteLine($"Fx : {c} не делится на {linearEquation.resultCalculateMatrix}");
 
             }
             else
@@ -64,6 +65,41 @@ namespace Program
                 linearEquation.main_matrix = B;
                 linearEquation.calculationOfMatrix();
                 outputB = linearEquation.main_matrix;
+            }
+            
+        }
+        static void getResult(List<List<int>> matrix, int n, int c)
+        {
+            int d, j;
+            d = 0;
+            
+            
+            int[,] result = new int[matrix.Count - 1, matrix[0].Count];
+
+            if (n == 1)
+            {
+                for (j = matrix[0].Count - 1; j != -1; j--)
+                {
+                    if (matrix[0][j] != 0)
+                    {
+                        d = matrix[0][j];
+                        break;
+                    }
+                        
+                }
+                for (int i = 0; i < matrix.Count - 1; i++)
+                {
+                    result[i, 0] = matrix[i + 1][j] * c / d;
+                    matrix[i + 1].Remove(j);
+                    for (int z = 1;  z < matrix[i + 1].Count; z++)
+                    {
+                        result[i, z] = matrix[i + 1][z];
+                    }
+                }
+            }
+            else
+            {
+
             }
         }
         static List<List<int>> readFile(string path)

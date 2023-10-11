@@ -23,7 +23,7 @@ namespace Program
             B.Remove(B[0]);
             
             List<List<int>> identity = identityMatrix(m);
-            
+            path = "E:\\Магистр_3_сем\\Рояк\\Lab_2\\DiophantineEq\\output.txt";
 
             if (n == 1)
             {
@@ -39,7 +39,7 @@ namespace Program
                 linearEquation.calculationOfMatrix();
                 outputB = linearEquation.main_matrix;
                 linearEquation.searcherMatrixResult();
-                getResult(outputB, n, c);
+                getResult(outputB, n, m, c, linearEquation.flag, path);
                 if (c % linearEquation.resultCalculateMatrix == 0)
                 {
                     Console.WriteLine($"Fx : {c} делится на {linearEquation.resultCalculateMatrix}");
@@ -65,18 +65,19 @@ namespace Program
                 linearEquation.main_matrix = B;
                 linearEquation.calculationOfMatrix();
                 outputB = linearEquation.main_matrix;
+                getResult(outputB, n, m, 0, linearEquation.flag, path);
             }
             
         }
-        static void getResult(List<List<int>> matrix, int n, int c)
+        static void getResult(List<List<int>> matrix, int n, int m, int c, int flag, string path)
         {
             int d, j;
             d = 0;
             
             
-            int[,] result = new int[matrix.Count - 1, matrix[0].Count];
+            int[,] result = new int[m, matrix[0].Count];
 
-            if (n == 1)
+            if (n == 1 && flag == 0)
             {
                 for (j = matrix[0].Count - 1; j != -1; j--)
                 {
@@ -97,10 +98,59 @@ namespace Program
                     }
                 }
             }
+            else if (n > 1 && flag == 0)
+            {
+                for (j = matrix[n - 1].Count - 2; j != -1; j--)
+                {
+                    if (matrix[n - 1][j] != 0)
+                    {
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < m; i++)
+                {
+                    int numberElement = matrix[i + n].Count;
+                    int count = 1;
+                    result[i, 0] = matrix[i + n][numberElement - 1];
+                    matrix[i + n].RemoveAt(numberElement - 1);
+                    for (int z = j + 1; z < matrix[i + n].Count; z++, count++)
+                    {
+                        result[i, count] = matrix[i + n][z];
+                    }
+                }
+            }
+            writeFile(path, flag, result);
+        }
+
+        static void writeFile(string path, int flag, int[,] massive)
+        {
+            StreamWriter sw = new StreamWriter(path);
+            int n, m;
+            n = massive.GetLength(0);
+            m = massive.Length / n;
+            if (flag == 0)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < m; j++)
+                    {
+                        if (j == 0)
+                            sw.Write(massive[i, j] + "\t");
+                        else if (massive[i, j] == 0)
+                            break;
+                        else
+                            sw.Write(massive[i, j] + "\t");
+                    }
+                            
+                    sw.WriteLine();
+                }
+            }
             else
             {
-
+                sw.WriteLine("NO SOLUTIONS");
             }
+            sw.Close();
         }
         static List<List<int>> readFile(string path)
         {

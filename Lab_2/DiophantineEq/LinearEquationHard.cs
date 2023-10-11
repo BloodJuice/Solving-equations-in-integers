@@ -11,6 +11,7 @@ namespace DiophantineEq
     {
         public List<List<int>> main_matrix { set; get; }
         public int resultCalculateMatrix { get; set; }
+        public int flag { get; set; }
         public int n { get; set; }
         public LinearEquationHard() { }
         public void calculationOfMatrix()
@@ -19,6 +20,7 @@ namespace DiophantineEq
             iNow = 0; // номер рассматриваемой строки матрицы main_matrix
             deleteValue = 0;
             lenMatrix = main_matrix[iNow].Count;
+            flag = 0;
 
             // First point
             while (iNow < n)
@@ -40,12 +42,12 @@ namespace DiophantineEq
                         swap(iNow);
                     iNow++;
                     if (iNow == n)
-                        Console.WriteLine($"NO SOLUTIONS");
+                        flag = -1;
                     continue;
                 }
                 if (ai == 0)
                 {
-                    Console.WriteLine($"NO SOLUTIONS");
+                    flag = -1;
                     break;
                 }
 
@@ -54,7 +56,7 @@ namespace DiophantineEq
                 q = aj / ai;
                 if (r != 0 && aj == main_matrix[iNow][lenMatrix - 1])
                 {
-                    Console.WriteLine($"NO SOLUTIONS");
+                    flag = -1;
                     break;
                 }
                 if (r < 0 || r > Math.Abs(ai))

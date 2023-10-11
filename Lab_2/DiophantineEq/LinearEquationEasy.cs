@@ -10,16 +10,17 @@ namespace Program
     {
         public List<List<int>> main_matrix { set; get; }
         public int resultCalculateMatrix { get; set; }
+        public int flag { get; set; }
         public LinearEquationEasy() { }
 
         public void calculationOfMatrix()
         {
             int i, j, r, q, count, aj;
-            bool flag = true;
+            flag = 0;
             count = 0;
 
             // First point
-            while (flag)
+            while (flag == 0)
             {
                 int[] intermValue = Ai(main_matrix[0], 0);
                 int ai = intermValue[0];
@@ -32,7 +33,7 @@ namespace Program
 
                 if ((aj == ai && i == j) || aj == 0)
                 {
-                    flag = false;
+                    flag = -1;
                     continue;
                 }
 
@@ -54,7 +55,7 @@ namespace Program
                     }
                 }
                 if (count == main_matrix[0].Count - 1)
-                    flag = false;
+                    flag = -1;
             }
             print(main_matrix);
         }

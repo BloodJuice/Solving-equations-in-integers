@@ -63,8 +63,7 @@ namespace Program
         }
         static void getResult(List<List<int>> matrix, int n, int m, int c, int flag, string path)
         {
-            int d, j, total;
-            total = 0;
+            int d, j;
             d = 0;
             int[,] result = new int[m, matrix[0].Count];
             int[] djSearcher = new int[2];
@@ -75,7 +74,6 @@ namespace Program
                 d = djSearcher[0];
                 j = djSearcher[1];
 
-                total = j + 1;
                 if (c % d != 0)
                     flag = -1;
                 for (int i = 0; i < matrix.Count - 1; i++)
@@ -85,12 +83,9 @@ namespace Program
                     result[i, 0] = matrix[i + 1][j] * c / d;
                     for (int z = j + 1;  z < matrix[i + 1].Count; z++)
                     {
-                        if (matrix[i + 1][z] != 0 && total < z)
-                            total++;
                         result[i, z] = matrix[i + 1][z];
                     }
                 }
-                total -= (j + 1);
             }
             else if (n > 1 && flag == 0)
             {
@@ -102,17 +97,13 @@ namespace Program
                     int count = 1;
                     result[i, 0] = matrix[i + n][numberElement - 1];
                     matrix[i + n].RemoveAt(numberElement - 1);
-                    total = j + 1;
                     for (int z = j + 1; z < matrix[i + n].Count; z++, count++)
                     {
-                        if (matrix[i + n][z] != 0 && total <= z)
-                            total++;
                         result[i, count] = matrix[i + n][z];
                     }
                 }
-                total -= (j + 1);
             }
-            writeFile(path, flag, result, total);
+            writeFile(path, flag, result);
         }
         static int[] searchElementOfMatrix(List<int> matrix, int count)
         {
@@ -140,26 +131,26 @@ namespace Program
             }
             return j;
         }
-        static void writeFile(string path, int flag, int[,] massive, int total)
+        static void writeFile(string path, int flag, int[,] matrix)
         {
             StreamWriter sw = new StreamWriter(path);
             int n, m;
-            n = massive.GetLength(0);
-            m = massive.Length / n;
-
-            sw.WriteLine("K:" + "\t" + total);
+            n = matrix.GetLength(0);
+            m = matrix.Length / n;
+            sw.WriteLine("K:\t\t" + counterOfFreeVariables(matrix));
             if (flag == 0)
             {
                 for (int i = 0; i < n; i++)
                 {
+                    sw.Write("x[" + i + "]:\t");
                     for (int j = 0; j < m; j++)
                     {
                         if (j == 0)
-                            sw.Write(massive[i, j] + "\t");
-                        else if (massive[i, j] == 0)
+                            sw.Write(matrix[i, j] + "\t");
+                        else if (matrix[i, j] == 0)
                             break;
                         else
-                            sw.Write(massive[i, j] + "\t");
+                            sw.Write(matrix[i, j] + "\t");
                     }
                             
                     sw.WriteLine();
@@ -174,7 +165,14 @@ namespace Program
         static int counterOfFreeVariables(int[,] matrix)
         {
             int count = 0;
-
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for(int j = 1; j < matrix.GetLength(1); j++)
+                {
+                    if (count < j && matrix[i, j] != 0)
+                        count++;
+                }
+            }
             return count;
         }
         static List<List<int>> readFile(string path)

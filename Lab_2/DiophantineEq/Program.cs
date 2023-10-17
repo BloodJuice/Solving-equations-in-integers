@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,16 +39,8 @@ namespace Program
                 linearEquation.main_matrix = B;
                 linearEquation.calculationOfMatrix();
                 outputB = linearEquation.main_matrix;
-                linearEquation.searcherMatrixResult();
+                outputB[0].Add(c);
                 getResult(outputB, n, m, c, linearEquation.flag, path);
-                if (c % linearEquation.resultCalculateMatrix == 0)
-                {
-                    Console.WriteLine($"Fx : {c} делится на {linearEquation.resultCalculateMatrix}");
-                    linearEquation.disisionMatrix(c);
-                }
-                else
-                    Console.WriteLine($"Fx : {c} не делится на {linearEquation.resultCalculateMatrix}");
-
             }
             else
             {
@@ -67,68 +60,94 @@ namespace Program
                 outputB = linearEquation.main_matrix;
                 getResult(outputB, n, m, 0, linearEquation.flag, path);
             }
-            
         }
         static void getResult(List<List<int>> matrix, int n, int m, int c, int flag, string path)
         {
-            int d, j;
+            int d, j, total;
+            total = 0;
             d = 0;
-            
-            
             int[,] result = new int[m, matrix[0].Count];
+            int[] djSearcher = new int[2];
 
             if (n == 1 && flag == 0)
             {
-                for (j = matrix[0].Count - 1; j != -1; j--)
-                {
-                    if (matrix[0][j] != 0)
-                    {
-                        d = matrix[0][j];
-                        break;
-                    }
-                        
-                }
+                djSearcher = searchElementOfMatrix(matrix[0], 2);
+                d = djSearcher[0];
+                j = djSearcher[1];
+
+                total = j + 1;
+                if (c % d != 0)
+                    flag = -1;
                 for (int i = 0; i < matrix.Count - 1; i++)
                 {
+                    if (flag == -1)
+                        break;
                     result[i, 0] = matrix[i + 1][j] * c / d;
-                    matrix[i + 1].Remove(j);
-                    for (int z = 1;  z < matrix[i + 1].Count; z++)
+                    for (int z = j + 1;  z < matrix[i + 1].Count; z++)
                     {
+                        if (matrix[i + 1][z] != 0 && total < z)
+                            total++;
                         result[i, z] = matrix[i + 1][z];
                     }
                 }
+                total -= (j + 1);
             }
             else if (n > 1 && flag == 0)
             {
-                for (j = matrix[n - 1].Count - 2; j != -1; j--)
-                {
-                    if (matrix[n - 1][j] != 0)
-                    {
-                        break;
-                    }
-                }
-
+                j = searchElementOfMatrix(matrix, n, 2);
+                
                 for (int i = 0; i < m; i++)
                 {
                     int numberElement = matrix[i + n].Count;
                     int count = 1;
                     result[i, 0] = matrix[i + n][numberElement - 1];
                     matrix[i + n].RemoveAt(numberElement - 1);
+                    total = j + 1;
                     for (int z = j + 1; z < matrix[i + n].Count; z++, count++)
                     {
+                        if (matrix[i + n][z] != 0 && total <= z)
+                            total++;
                         result[i, count] = matrix[i + n][z];
                     }
                 }
+                total -= (j + 1);
             }
-            writeFile(path, flag, result);
+            writeFile(path, flag, result, total);
         }
-
-        static void writeFile(string path, int flag, int[,] massive)
+        static int[] searchElementOfMatrix(List<int> matrix, int count)
+        {
+            int[] result = new int[2];
+            for (int j = matrix.Count - count; j != -1; j--)
+            {
+                if (matrix[j] != 0)
+                {
+                    result[0] = matrix[j];
+                    result[1] = j;
+                    break;
+                }
+            }
+            return result;
+        }
+        static int searchElementOfMatrix(List<List<int>> matrix, int n, int count)
+        {
+            int j = 0;
+            for (j = matrix[n - 1].Count - 2; j != -1; j--)
+            {
+                if (matrix[n - 1][j] != 0)
+                {
+                    break;
+                }
+            }
+            return j;
+        }
+        static void writeFile(string path, int flag, int[,] massive, int total)
         {
             StreamWriter sw = new StreamWriter(path);
             int n, m;
             n = massive.GetLength(0);
             m = massive.Length / n;
+
+            sw.WriteLine("K:" + "\t" + total);
             if (flag == 0)
             {
                 for (int i = 0; i < n; i++)
@@ -151,6 +170,12 @@ namespace Program
                 sw.WriteLine("NO SOLUTIONS");
             }
             sw.Close();
+        }
+        static int counterOfFreeVariables(int[,] matrix)
+        {
+            int count = 0;
+
+            return count;
         }
         static List<List<int>> readFile(string path)
         {

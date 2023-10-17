@@ -10,7 +10,6 @@ namespace DiophantineEq
     internal class LinearEquationHard : IMatrixSolver
     {
         public List<List<int>> main_matrix { set; get; }
-        public int resultCalculateMatrix { get; set; }
         public int flag { get; set; }
         public int n { get; set; }
         public LinearEquationHard() { }

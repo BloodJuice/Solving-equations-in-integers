@@ -9,7 +9,6 @@ namespace Program
     internal class LinearEquationEasy : IMatrixSolver
     {
         public List<List<int>> main_matrix { set; get; }
-        public int resultCalculateMatrix { get; set; }
         public int flag { get; set; }
         public LinearEquationEasy() { }
 
@@ -33,8 +32,7 @@ namespace Program
 
                 if ((aj == ai && i == j) || aj == 0)
                 {
-                    flag = -1;
-                    continue;
+                    break;
                 }
 
                 //Third point
@@ -55,49 +53,55 @@ namespace Program
                     }
                 }
                 if (count == main_matrix[0].Count - 1)
-                    flag = -1;
+                    break;
             }
             print(main_matrix);
         }
-        public void searcherMatrixResult()
-        {
-            for (int i = 0; i < main_matrix[0].Count;i++)
-            {
-                if (main_matrix[0][i] != 0)
-                    resultCalculateMatrix = main_matrix[0][i];
-            }
-        }
-        public void disisionMatrix(int c)
-        {
-            int d = resultCalculateMatrix;
-            int[,] exitMatrix = new int[main_matrix.Count - 1, main_matrix[1].Count];
-            for (int i = 1; i < main_matrix.Count; i++)
-            {
-                for (int j = 0; j < main_matrix[i].Count; j++)
-                {
-                    if (j == 0)
-                        exitMatrix[i - 1, j] = (c / d * main_matrix[i][j]);
-                    else
-                        exitMatrix[i - 1, j] = (main_matrix[i][j]);
-                }
-            }
-        }
         public int[] Ai(List<int> massive, int iNow)
         {
-            int minValue = massive[0];
-            int[] result = new int[2];
+            int[] result = noZeroValue(massive);
 
+            // Убираем из расчётов последний столбец, т.к. его мы не можем вычитать из других элементов.
             for (int i = 0; i < massive.Count; i++)
             {
-                if (Math.Abs(massive[i]) <= Math.Abs(minValue) && massive[i] != 0)
+                if (Math.Abs(massive[i]) < Math.Abs(result[0]) && massive[i] != 0)
                 {
-                    minValue = massive[i];
-                    result[0] = minValue;
+                    result[0] = massive[i];
                     result[1] = i;
                 }
             }
             return result;
         }
+        protected int[] noZeroValue(List<int> massive)
+        {
+            int[] value = new int[] { 0, 0 };
+            for (int j = 0; j < massive.Count; j++)
+            {
+                if (massive[j] != 0)
+                {
+                    value[0] = massive[j];
+                    value[1] = j;
+                    break;
+                }
+            }
+            return value;
+        }
+        //public int[] Ai(List<int> massive, int iNow)
+        //{
+        //    int minValue = massive[0];
+        //    int[] result = new int[2];
+
+        //    for (int i = 0; i < massive.Count; i++)
+        //    {
+        //        if (Math.Abs(massive[i]) <= Math.Abs(minValue) && massive[i] != 0)
+        //        {
+        //            minValue = massive[i];
+        //            result[0] = minValue;
+        //            result[1] = i;
+        //        }
+        //    }
+        //    return result;
+        //}
         public int[] searchOtherValue(List<int> massive, int i, int deleteValue)
         {
             int[] result = new int[2];

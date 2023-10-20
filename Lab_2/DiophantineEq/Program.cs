@@ -134,19 +134,25 @@ namespace Program
         static void writeFile(string path, int flag, int[,] matrix)
         {
             StreamWriter sw = new StreamWriter(path);
-            int n, m;
+            int n, m, K;
             n = matrix.GetLength(0);
             m = matrix.Length / n;
-            sw.WriteLine("K:\t\t" + counterOfFreeVariables(matrix));
+            
             if (flag == 0)
             {
+                K = counterOfFreeVariables(matrix);
+                sw.WriteLine("K:\t\t" + K);
                 for (int i = 0; i < n; i++)
                 {
+                    int count = 0;
                     sw.Write("x[" + i + "]:\t");
                     for (int j = 0; j < m; j++)
                     {
-                        if (j == 0)
+                        if (count < K + 1)
+                        {
                             sw.Write(matrix[i, j] + "\t");
+                            count++;
+                        }
                         else if (matrix[i, j] == 0)
                             break;
                         else

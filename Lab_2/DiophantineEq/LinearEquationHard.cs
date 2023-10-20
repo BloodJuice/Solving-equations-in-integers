@@ -87,7 +87,7 @@ namespace DiophantineEq
                 }
                 
             }
-            print(main_matrix);
+            //print(main_matrix);
         }
         public int[] Ai(List<int> massive, int iNow)
         {

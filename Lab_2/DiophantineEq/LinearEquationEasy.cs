@@ -55,7 +55,7 @@ namespace Program
                 if (count == main_matrix[0].Count - 1)
                     break;
             }
-            print(main_matrix);
+            //print(main_matrix);
         }
         public int[] Ai(List<int> massive, int iNow)
         {

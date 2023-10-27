@@ -44,11 +44,11 @@ namespace DiophantineEq
                         flag = -1;
                     continue;
                 }
-                if (ai == 0)
-                {
-                    flag = -1;
-                    break;
-                }
+                //if (ai == 0)
+                //{
+                //    flag = -1;
+                //    break;
+                //}
 
                 //Third point
                 r = aj % ai;
@@ -79,7 +79,7 @@ namespace DiophantineEq
                 }
 
                 // Проверяем число нулевых элементов в текущей строке матрицы для создания треугольного вида
-                if (count == (lenMatrix - 2) - iNow && main_matrix[iNow][lenMatrix - 1] == 0)
+                if (count == (lenMatrix - 2) - iNow /* && main_matrix[iNow][lenMatrix - 1] == 0 */)
                 {
                     if (main_matrix[iNow][iNow] == 0)
                         swap(iNow);
